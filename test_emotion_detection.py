@@ -16,14 +16,11 @@ def run_unit_tests():
         # Call the emotion_detector function with the statement
         result = emotion_detector(statement)
         
-        # Print the result for debugging purposes
-        print(f"Result for '{statement}': {result}")
-        
         # Check if the dominant emotion matches the expected emotion
-        if isinstance(result, dict) and result.get('dominant_emotion') == expected_emotion:
+        if result['dominant_emotion'] == expected_emotion:
             print(f"Test passed for statement: '{statement}'")
         else:
-            print(f"Test failed for statement: '{statement}'. Expected '{expected_emotion}', got '{result}'")
+            print(f"Test failed for statement: '{statement}'. Expected '{expected_emotion}', got '{result['dominant_emotion']}'")
 
 # Run the unit tests
 run_unit_tests()
