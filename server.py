@@ -34,13 +34,14 @@ def detect_emotion():
         else:
             # Return an error if there was an issue with emotion detection
             return jsonify({"error": "Error in emotion detection"}), 500
+
     except requests.exceptions.Timeout:
         # Handle timeout exception
-        return jsonify({"error": "Error: Request timed out"}), 500
+        return jsonify({"error": "Request timed out"}), 500
     except requests.exceptions.RequestException as e:
         # Handle any other exceptions related to the request
-        return jsonify({"error": f"Error: {e}"}), 500
+        return jsonify({"error": str(e)}), 500
 
 if __name__ == '__main__':
-    # Run the Flask application using gunicorn server
+    # Run the Flask application on localhost at port 5000
     app.run(host='0.0.0.0', port=5000, threaded=True)
