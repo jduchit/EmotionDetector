@@ -16,8 +16,39 @@ def emotion_detector(text_to_analyze):
         
         # Check if the request was successful (status code 200)
         if response.status_code == 200:
-            # Extract the 'emotion_predictions' attribute from the response JSON
-            return response.json()
+            # Parse the response JSON
+            response_data = response.json()
+            
+            # Extract the required emotions and their scores
+            emotions = response_data.get('emotion_predictions', [])
+            emotion_scores = {emotion['emotion']: emotion['score'] for emotion in emotions}
+            
+            # Extract scores for anger, disgust, fear, joy, and sadness
+            anger_score = emotion_scores.get('anger', 0)
+            disgust_score = emotion_scores.get('disgust', 0)
+            fear_score = emotion_scores.get('fear', 0)
+            joy_score = emotion_scores.get('joy', 0)
+            sadness_score = emotion_scores.get('sadness', 0)
+            
+            # Determine the dominant emotion
+            scores = {
+                'anger': anger_score,
+                'disgust': disgust_score,
+                'fear': fear_score,
+                'joy': joy_score,
+                'sadness': sadness_score
+            }
+            dominant_emotion = max(scores, key=scores.get)
+            
+            # Return the formatted output
+            return {
+                'anger': anger_score,
+                'disgust': disgust_score,
+                'fear': fear_score,
+                'joy': joy_score,
+                'sadness': sadness_score,
+                'dominant_emotion': dominant_emotion
+            }
         else:
             # Return an error message if the request was not successful
             return f"Error: Failed to analyze emotion, status code: {response.status_code}"
